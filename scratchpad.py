@@ -1,9 +1,7 @@
+quit
 import random
 
-roll_type = "1d6"
-roll_array = roll_type.split("d")
-roll_multiplier = roll_array[0];
-roll_maxvalue = roll_array[1];
-
-print (roll_maxvalue);
-print (roll_multiplier);
+kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]
+kings_code_index = random.randint(1,len(kings_possible_codes))-1
+kings_code = kings_possible_codes[kings_code_index]
+print (kings_code)

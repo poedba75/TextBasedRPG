@@ -36,7 +36,7 @@ class player:
 myPlayer = player()
 
 # Define Local Dictionaries
-valid_start_commands = ["play","help","quit","print map","show map"]
+valid_start_commands = ["play","help","quit","print map"]
 
 ### Supporting Functions  ###
 def printbychar(statement,ms):
@@ -59,7 +59,7 @@ def title_screen_selections():
     elif (option.lower() == "help"):
         help_menu()
         title_screen_selections()
-    elif (option.lower() == "print map" or option.lower() == "show map"):
+    elif (option.lower() == "print map"):
         printbychar("You can only print the map once you have started the game.\n",20)
         title_screen_selections()
     elif (option.lower() == "quit"):
@@ -80,10 +80,9 @@ def title_screen():
 def help_menu():
     print("Help Menu")
     print("- Type your commands to do them")
-    print("- Use [examine,inspect,interact,look] to get more details of a location.")
-    print("- Use [move,go,travel,walk] to move to a new location.")
-    print("- Valid Directions are [up,north,down,south,left,west,right,east]")
-    print("- Use [print map or show map] to print map and legend of the land.")
+    print("- Use [look] to get more details of a location.")
+    print("- Use [go] to move to a new location.")
+    print("- Valid Directions are [north,east,south,west]")
     print("- Good Luck and have fun!")
     
 ###  Game Interactivity   ####
@@ -91,25 +90,20 @@ ZONENAME = "ZoneName"
 DESCRIPTION = "Description"
 EXAMINATION = "Examination"
 ZONETYPE = "ZoneType"
-UP = "Up","North"
-DOWN = "Down","South"
-LEFT = "Left","West"
-RIGHT = "Right","East"
+UP = "North"
+DOWN = "South"
+LEFT = "West"
+RIGHT = "East"
 
 def print_location():
 	printbychar("\n" + zonemap[myPlayer.location][DESCRIPTION],20)
 
 def prompt():
-	acceptable_actions = ["move","go","travel","walk","examine","inspect","interact","look","help","quit","print map","show map"]
+	acceptable_actions = ["go","look","help","quit","print map"]
 
 	printbychar("\nWhat would you like to do?",20)
-	response = input("\n> ");
-	response_array = response.split(" ");
-	action = response_array[0];
+	action = input("\n> ")
 
-	if response.find(" ") > 0:
-		action_arg = response_array[1];
-	
 	while action.lower() not in acceptable_actions:
 		printbychar("Unknown action, try again.\n",20)
 		printbychar("Use \"help\" for a list of Acceptable Actions.\n",20)
@@ -123,17 +117,13 @@ def prompt():
 		player_move(action.lower())
 	elif action.lower() in ["examine","inspect","interact","look"]:
 		player_examine(action.lower())
-	elif action.lower() in ["print","show"]:
-		system(clear_command)
+	elif action.lower() == "print map":
+		#system(clear_command)
 		grid.printmap(myPlayer.location)
 
 def player_move(myAction):
-	if action_arg == "":
-		printbychar("\nWhere would you like to move to?",20);
-		dest = input("\n> ");
-	else:
-		dest = action_arg;
-
+	printbychar("\nWhere would you like to move to?",20)
+	dest = input("\n> ")
 	if dest.lower() in ["up","north"]:
 		destination = zonemap[myPlayer.location][UP]
 	elif dest.lower() in ["down","south"]:

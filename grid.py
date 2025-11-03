@@ -6,21 +6,21 @@ import random
 from time import sleep
 
 # Get the dimensions of the playing grid
-mapwidth = 50
-mapheight = 15
+mapwidth = 70
+mapheight = 13
 princess_in_hiding = False
 
 # If you want to prompt the user for the map size...
-
+'''
 mapwidth = int(input('What is the requested map width? (1-35)\n> '))
 mapheight = int(input('What is the requested map height? (1-26)\n> '))
-
+'''
 
 # Define variables & Set Initial Values
 map_area = mapwidth * mapheight
 x = 0 #Horizontal Coordinates
 y = 0 #Verticalll Coordinates
-kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility","Talon","Wings","Magi","Gypsy"]
+kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]
 kings_code_index = random.randint(1,len(kings_possible_codes))-1
 kings_code = kings_possible_codes[kings_code_index]
 
