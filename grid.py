@@ -37,7 +37,7 @@ PRINCESS = False
 # Initialize the Town_Zone Dictionary
 Town_Zone = {}
 
-# Populate the Town_Zone Distionary
+# Populate the Town_Zone Dictionary
 Town_Zone.update({
     '0,0' : {
         ZONENAME:"Your Home",
