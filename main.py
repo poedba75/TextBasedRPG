@@ -99,7 +99,7 @@ def print_location():
 	printbychar("\n" + zonemap[myPlayer.location][DESCRIPTION],20);
 
 def prompt():
-	acceptable_actions = ["go","look","help","quit","print map"];
+	acceptable_actions = ["move","go","travel","walk","examine","inspect","interact","look","help","quit","print map","show map"];
 
 	printbychar("\nWhat would you like to do?",20);
 	action = input("\n> ");
@@ -119,7 +119,7 @@ def prompt():
 		player_move(action.lower());
 	elif action.lower() in ["examine","inspect","interact","look"]:
 		player_examine(action.lower());
-	elif action.lower() == "print map":
+	elif action.lower() in ["print map","show map"]:
 		grid.printmap(myPlayer.location);
 
 def player_move(myAction):

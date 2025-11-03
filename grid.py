@@ -1,29 +1,36 @@
-
 # Import Supporting Modules
-import random
+import random;
 
 # Import Specific Modules from Libraries
-from time import sleep
-
-# Get the dimensions of the playing grid
-mapwidth = 70
-mapheight = 13
-princess_in_hiding = False
+from time import sleep;
 
 # If you want to prompt the user for the map size...
+inmapwidth = 0;
+inmapheight = 0;
 '''
-mapwidth = int(input('What is the requested map width? (1-35)\n> '))
-mapheight = int(input('What is the requested map height? (1-26)\n> '))
+inmapwidth = int(input('What is the requested map width? (1-35)\n> '))
+inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 '''
 
 # Define variables & Set Initial Values
-map_area = mapwidth * mapheight
-x = 0 #Horizontal Coordinates
-y = 0 #Verticalll Coordinates
-kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]
-kings_code_index = random.randint(1,len(kings_possible_codes))-1
-kings_code = kings_possible_codes[kings_code_index]
+if (inmapwidth == 0):
+    mapwidth = 70;              # Number of Columns on Map
 
+if (inmapheight == 0):
+    mapheight = 13;             # Number of Rows on Map
+
+princess_in_hiding = False;     # Set initial boolean for Princess
+map_area = mapwidth * mapheight # Calculate Total Area of Map
+x = 0                           # Current Horizontal Coordinate
+y = 0                           # Current Vertical Coordinate
+kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]   # All Possible King Secret Codes
+kings_code_index = random.randint(1,len(kings_possible_codes))-1                    # Randomly pick the index for one of the possible king secret codes
+kings_code = kings_possible_codes[kings_code_index]                                 # Assign the King's Secret Code
+random_princess_x = 0                                                               # Initial Princess x coordinate
+random_princess_y = 0                                                               # Initial Princess y coordinate
+princess_location = str(random_princess_x) + "," + str(random_princess_y)           # Princess Location in x, y format
+
+# Define Constants and Set Values
 ZONENAME = "ZoneName"
 DESCRIPTION = "Description"
 EXAMINATION = "Examination"
@@ -94,19 +101,19 @@ Town_Zone.update({
     }
 })
 
-random_princess_x = 0
-random_princess_y = 0
-princess_location = str(random_princess_x) + "," + str(random_princess_y)
-
+# Move Princess outside of town.
 while princess_location in Town_Zone:
-    random_princess_y = random.randint(1,mapheight-1)
-    random_princess_x = random.randint(1,mapwidth-1)
-    princess_location = str(random_princess_x) + "," + str(random_princess_y)
+    random_princess_y = random.randint(1,mapheight-1)                           # Choose random y coordinate
+    random_princess_x = random.randint(1,mapwidth-1)                            # Choose randle x coordinate
+    princess_location = str(random_princess_x) + "," + str(random_princess_y)   # Update Princess Location in x, y format
 
 # Initialize the ZoneMap Dictionary
 zonemap = {}
 
+# Generate Zone Map (pseudo randomly) 
+# Repeat for Each Row of the map
 while y < mapheight:
+    # Repeat for Each column of the current row
     while x < mapwidth:
         # Define Current and Neighbor Coordinates
         curr_coordinate = str(x) + "," + str(y)
@@ -202,6 +209,7 @@ while y < mapheight:
         description_value = "This will store the description of the zone."
         examination_value = "This will be the message upon examination of the current zone."
         
+        # Override the zone map with Town_Zone info.
         if curr_coordinate in Town_Zone:
             zonename_value = Town_Zone[curr_coordinate][ZONENAME]
             description_value = Town_Zone[curr_coordinate][DESCRIPTION]
@@ -212,6 +220,7 @@ while y < mapheight:
             left_coordinate = Town_Zone[curr_coordinate][LEFT]
             right_coordinate = Town_Zone[curr_coordinate][RIGHT]
             princess = Town_Zone[curr_coordinate][PRINCESS]
+        # Hide the Princess
         elif curr_coordinate == princess_location and princess_in_hiding == False:
             princess = True
             princess_in_hiding = True
@@ -233,8 +242,10 @@ while y < mapheight:
             },
         })
 
+        # Update the x coordinate to the next column
         x += 1
     
+    # Update the y coordinate to the next row and reset x to the first column
     y += 1
     x = 0
 
