@@ -1,5 +1,6 @@
 # Import Supporting Modules
 import random;
+import codes;
 
 # Import Specific Modules from Libraries
 from time import sleep;
@@ -14,7 +15,7 @@ inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 
 # Define variables & Set Initial Values
 if (inmapwidth == 0):
-    mapwidth = 70;              # Number of Columns on Map
+    mapwidth = 10;              # Number of Columns on Map
 
 if (inmapheight == 0):
     mapheight = 13;             # Number of Rows on Map
@@ -23,22 +24,20 @@ princess_in_hiding = False;     # Set initial boolean for Princess
 map_area = mapwidth * mapheight # Calculate Total Area of Map
 x = 0                           # Current Horizontal Coordinate
 y = 0                           # Current Vertical Coordinate
-kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]   # All Possible King Secret Codes
-kings_code_index = random.randint(1,len(kings_possible_codes))-1                    # Randomly pick the index for one of the possible king secret codes
-kings_code = kings_possible_codes[kings_code_index]                                 # Assign the King's Secret Code
 random_princess_x = 0                                                               # Initial Princess x coordinate
 random_princess_y = 0                                                               # Initial Princess y coordinate
 princess_location = str(random_princess_x) + "," + str(random_princess_y)           # Princess Location in x, y format
+kings_code = codes.kings_code;
 
 # Define Constants and Set Values
 ZONENAME = "ZoneName"
 DESCRIPTION = "Description"
 EXAMINATION = "Examination"
 ZONETYPE = "ZoneType"
-UP = "Up","North"
-DOWN = "Down","South"
-LEFT = "Left","West"
-RIGHT = "Right","East"
+UP = "North"
+DOWN = "South"
+LEFT = "West"
+RIGHT = "East"
 PRINCESS = False
 
 # Initialize the Town_Zone Dictionary
@@ -224,6 +223,7 @@ while y < mapheight:
         elif curr_coordinate == princess_location and princess_in_hiding == False:
             princess = True
             princess_in_hiding = True
+            zonetype_value = "Princess"
         else:
             princess = False
 

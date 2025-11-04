@@ -102,14 +102,14 @@ def prompt():
 	acceptable_actions = ["move","go","travel","walk","examine","inspect","interact","look","help","quit","print map","show map"];
 
 	printbychar("\nWhat would you like to do?",20);
-	action = input("\n> ");
+	action = input("\n" + myPlayer.location + "> ");
 
 	while action.lower() not in acceptable_actions:
 		printbychar("Unknown action, try again.\n",20);
 		printbychar("Accepable actions include...\n",20);
 		for acceptable_action in acceptable_actions:
 			printbychar(acceptable_action + "\n",20);
-		action = input("> ");
+		action = input("\n" + myPlayer.location + "> ");
 
 	if action.lower() == "quit":
 		sys.exit();
@@ -124,7 +124,7 @@ def prompt():
 
 def player_move(myAction):
 	printbychar("\nWhere would you like to move to?",20);
-	dest = input("\n> ");
+	dest = input("\n" + myPlayer.location + "> ");
 	if dest.lower() in ["up","north"]:
 		destination = zonemap[myPlayer.location][UP];
 	elif dest.lower() in ["down","south"]:
@@ -132,7 +132,6 @@ def player_move(myAction):
 	elif dest.lower() in ["left","west"]:
 		destination = zonemap[myPlayer.location][LEFT];
 	elif dest.lower() in ["right","east"]:
-		printbychar("You've chosen to head east",20);
 		destination = zonemap[myPlayer.location][RIGHT];
 		
 

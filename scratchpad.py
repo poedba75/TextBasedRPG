@@ -1,9 +1,2 @@
-quit
-import random
-
-kings_possible_codes = ["Raven","Sheild","Sword","Dream","Dedication","Nobility"]
-kings_code_index = random.randint(1,len(kings_possible_codes))-1
-kings_code = kings_possible_codes[kings_code_index]
-###print (kings_code)
-for code in kings_possible_codes:
-    print (code);
+my_dict = {"name": "Alice", "age": 30}
+print(my_dict["city"]) # This would raise a KeyError because "city" is not a key
