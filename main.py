@@ -10,8 +10,12 @@ import grid;
 
 # Define Local variables.
 zonemap = grid.zonemap;
-found_princess = False;
-
+find_princess = input("Do you want to find the princess? (yes/no): ").strip().lower();
+match find_princess:
+	case "yes":
+		found_princess = False;
+	case "no":
+		found_princess = True;
 # Python Test RPG
 # Name here :D
 # Must be run in Python3
@@ -25,12 +29,58 @@ else:
 # Define Player Class with attributes
 class player:
 	def __init__(self):
-		self.name = "";
-		self.occupation = "";
+		self.name = input("Enter your name: ");
+		self.occupation = input("Enter your occupation: ");
 		self.hp = 0;
 		self.mp = 0;
+		self.strength = 0;
 		self.location = "0,0"; #Home Location
 		self.gameover = False;
+
+#does special things depending on what you do
+match self.occupation:
+	case "knight":
+		self.hp = 100;
+		self.mp = 50;
+		self.strength = 100;
+	case "mage":
+		self.hp = 75;
+		self.mp = 100;
+		self.strength = 75;
+	case "thief":
+		self.hp = 60;
+		self.mp = 75;
+		self.strength = 60;		
+	case "cleric":
+		self.hp = 80;
+		self.mp = 80;
+		self.strength = 80;
+	case "archer":
+		self.hp = 90;
+		self.mp = 60;
+		self.strength = 85;
+	case "bard":
+		self.hp = 70;
+		self.mp = 70;
+		self.strength = 70;
+	case "Barrel Worker":
+		self.hp = 200;
+		self.mp = 20;
+		self.strength = 500;
+		print("As a Barrel Worker, you have exceptional durability but limited magical ability.");
+	case "Dragon Tamer":
+		self.hp = 150;
+		self.mp = 100;
+		self.strength = 100;
+	case "Alchemist":
+		self.hp = 80;
+		self.mp = 120;
+		self.strength = 70;
+	case "":
+		print("No occupation selected. Defaulting to Adventurer.");
+		self.hp = 85;
+		self.mp = 85;
+		self.strength = 85;	
 
 # Initialize myPlayer
 myPlayer = player();
