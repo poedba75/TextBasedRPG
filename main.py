@@ -13,9 +13,11 @@ zonemap = grid.zonemap;
 find_princess = input("Do you want to find the princess? (yes/no): ").strip().lower();
 match find_princess:
 	case "yes":
+		print("\nShe's lost again");
 		found_princess = False;
 	case "no":
 		found_princess = True;
+
 # Python Test RPG
 # Name here :D
 # Must be run in Python3
