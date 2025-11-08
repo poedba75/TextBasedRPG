@@ -38,8 +38,18 @@ myPlayer = player();
 # Define Local Dictionaries
 valid_start_commands = ["play","help","quit","print map"];
 
+###  Game Interactivity   ####
+ZONENAME = "ZoneName";
+DESCRIPTION = "Description";
+EXAMINATION = "Examination";
+ZONETYPE = "ZoneType";
+UP = "North";
+DOWN = "South";
+LEFT = "West";
+RIGHT = "East";
+
 ### Supporting Functions  ###
-def printbychar(statement,ms):
+def printbychar(statement,ms=10):
 	for character in statement:
 		sys.stdout.write(character);
 		sys.stdout.flush();
@@ -47,11 +57,11 @@ def printbychar(statement,ms):
 
 # Define Title Screen Selections
 def title_screen_selections():
-    printbychar("What would you like to do?",20);
+    printbychar("What would you like to do?");
     option = input("> ");
     
     while option.lower() not in valid_start_commands:
-        printbychar("Please enter a valid command.",20);
+        printbychar("Please enter a valid command.");
         option = input("> ");
 
     if (option.lower() == "play"):
@@ -60,7 +70,7 @@ def title_screen_selections():
         help_menu();
         title_screen_selections()
     elif (option.lower() == "print map"):
-        printbychar("You can only print the map once you have started the game.\n",20);
+        printbychar("You can only print the map once you have started the game.\n");
         title_screen_selections();
     elif (option.lower() == "quit"):
         sys.exit();
@@ -84,82 +94,83 @@ def help_menu():
     print("- Use [go] to move to a new location.");
     print("- Valid Directions are [north,east,south,west]");
     print("- Good Luck and have fun!");
-    
-###  Game Interactivity   ####
-ZONENAME = "ZoneName";
-DESCRIPTION = "Description";
-EXAMINATION = "Examination";
-ZONETYPE = "ZoneType";
-UP = "North";
-DOWN = "South";
-LEFT = "West";
-RIGHT = "East";
 
 def print_location():
-	printbychar("\n" + zonemap[myPlayer.location][DESCRIPTION],20);
+	printbychar("\n" + zonemap[myPlayer.location][DESCRIPTION]);
+
+def verify_action(action):
+	acceptable_actions = ["move","go","travel","walk","examine","inspect","interact","look","help","quit","print map","show map"];
+	new_action = action;
+
+	while new_action.lower() not in acceptable_actions:
+		printbychar("Unknown action, try again.\n");
+		printbychar("Accepable actions include...\n");
+		for acceptable_action in acceptable_actions:
+			printbychar(acceptable_action + "\n");
+		printbychar("\nWhat would you like to do?");
+		new_action = input("\n" + myPlayer.location + "> ");
+	return new_action;
 
 def prompt():
-	acceptable_actions = ["move","go","travel","walk","examine","inspect","interact","look","help","quit","print map","show map"];
-
-	printbychar("\nWhat would you like to do?",20);
+	printbychar("\nWhat would you like to do?");
 	action = input("\n" + myPlayer.location + "> ");
+	verified_action = verify_action(action);
 
-	while action.lower() not in acceptable_actions:
-		printbychar("Unknown action, try again.\n",20);
-		printbychar("Accepable actions include...\n",20);
-		for acceptable_action in acceptable_actions:
-			printbychar(acceptable_action + "\n",20);
-		action = input("\n" + myPlayer.location + "> ");
-
-	if action.lower() == "quit":
-		sys.exit();
-	elif action.lower() == "help":
-		help_menu();
-	elif action.lower() in ["move","go","travel","walk"]:
-		player_move(action.lower());
-	elif action.lower() in ["examine","inspect","interact","look"]:
-		player_examine(action.lower());
-	elif action.lower() in ["print map","show map"]:
-		grid.printmap(myPlayer.location);
+	match verified_action.lower():
+		case "quit":
+			sys.exit();
+		case "help":
+			help_menu();
+		case "move"|"go"|"travel"|"walk":
+			player_move(verified_action.lower());
+		case "examine"|"inspect"|"interact"|"look":
+			player_examine(verified_action.lower());
+		case "print map"|"show map":
+			grid.printmap(myPlayer.location);
 
 def player_move(myAction):
-	printbychar("\nWhere would you like to move to?",20);
+	printbychar("\nWhere would you like to move to?");
 	dest = input("\n" + myPlayer.location + "> ");
-	if dest.lower() in ["up","north"]:
-		destination = zonemap[myPlayer.location][UP];
-	elif dest.lower() in ["down","south"]:
-		destination = zonemap[myPlayer.location][DOWN];
-	elif dest.lower() in ["left","west"]:
-		destination = zonemap[myPlayer.location][LEFT];
-	elif dest.lower() in ["right","east"]:
-		destination = zonemap[myPlayer.location][RIGHT];
-		
 
-	if destination == "":
-		move_stmt = "You can't move here.";
-		printbychar(move_stmt,20);
-	elif destination == "wall":
-		move_stmt = "You can't continue.  There is a large wall here.";
-		printbychar(move_stmt,20);
-	elif destination == "thick forest":
-		move_stmt = "The forest is too thick.  You can't go this way.";
-		printbychar(move_stmt,20);
-	elif destination == "cliff":
-		move_stmt = "You stand in front of a huge cliff.  The rocks are too smooth to climb.";
-		printbychar(move_stmt,20);
-	elif destination == "cave wall":
-		move_stmt = "You look around in the dark but there is no way out here.";
-		printbychar(move_stmt,20);
-	else:
-		movement_handler(destination);
+	match dest.lower():
+		case "up"|"north":
+			destination = zonemap[myPlayer.location][UP];
+		case "down"|"south":
+			destination = zonemap[myPlayer.location][DOWN];
+		case "left"|"west":
+			destination = zonemap[myPlayer.location][LEFT];
+		case "right"|"east":
+			destination = zonemap[myPlayer.location][RIGHT];
+		case _:
+			printbychar ("Invalid Direction");
+			prompt();
+		
+	match destination:
+		case "":
+			move_stmt = "You can't move here.";
+			printbychar(move_stmt);
+		case "wall":
+			move_stmt = "You can't continue.  There is a large wall here.";
+			printbychar(move_stmt);
+		case "thick forest":
+			move_stmt = "The forest is too thick.  You can't go this way.";
+			printbychar(move_stmt);
+		case "cliff":
+			move_stmt = "You stand in front of a huge cliff.  The rocks are too smooth to climb.";
+			printbychar(move_stmt);
+		case "cave wall":
+			move_stmt = "You look around in the dark but there is no way out here.";
+			printbychar(move_stmt);
+		case _:
+			movement_handler(destination);
 
 def movement_handler(destination):
-	printbychar("\n" + "You have moved to " + zonemap[destination][ZONENAME]+ ".",20);
+	printbychar("\n" + "You have moved to " + zonemap[destination][ZONENAME]+ ".");
 	myPlayer.location = destination;
 	print_location();
 
 def player_examine(action):
-	printbychar(zonemap[myPlayer.location][EXAMINATION],20);
+	printbychar(zonemap[myPlayer.location][EXAMINATION]);
 
 ###  Game Functionality   ####
 def start_game():
@@ -175,12 +186,12 @@ def setup_game():
 	system(clear_command);
 
 	### Name Collection  ###
-	printbychar("Hello, what is your name?\n",20);
+	printbychar("Hello, what is your name?\n");
 	myPlayer.name = input("> ");
 
 	### Introdution  ###
-	printbychar("\nWelcome " + myPlayer.name + ".",20);
-	printbychar("\nLet the Game Begin...",20);
+	printbychar("\nWelcome " + myPlayer.name + ".");
+	printbychar("\nLet the Game Begin...");
 	main_game_loop();
 
 title_screen();

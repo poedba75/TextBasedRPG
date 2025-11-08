@@ -15,10 +15,10 @@ inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 
 # Define variables & Set Initial Values
 if (inmapwidth == 0):
-    mapwidth = 10;              # Number of Columns on Map
+    mapwidth = 40;              # Number of Columns on Map
 
 if (inmapheight == 0):
-    mapheight = 13;             # Number of Rows on Map
+    mapheight = 15;             # Number of Rows on Map
 
 princess_in_hiding = False;     # Set initial boolean for Princess
 map_area = mapwidth * mapheight # Calculate Total Area of Map
