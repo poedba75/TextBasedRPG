@@ -15,10 +15,10 @@ inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 
 # Define variables & Set Initial Values
 if (inmapwidth == 0):
-    mapwidth = 40;              # Number of Columns on Map
+    mapwidth = 60;              # Number of Columns on Map
 
 if (inmapheight == 0):
-    mapheight = 15;             # Number of Rows on Map
+    mapheight = 30;             # Number of Rows on Map
 
 princess_in_hiding = False;     # Set initial boolean for Princess
 map_area = mapwidth * mapheight # Calculate Total Area of Map
@@ -105,6 +105,9 @@ while princess_location in Town_Zone:
     random_princess_y = random.randint(1,mapheight-1)                           # Choose random y coordinate
     random_princess_x = random.randint(1,mapwidth-1)                            # Choose randle x coordinate
     princess_location = str(random_princess_x) + "," + str(random_princess_y)   # Update Princess Location in x, y format
+
+#Debug Only
+princess_location = "2,2";
 
 # Initialize the ZoneMap Dictionary
 zonemap = {}
@@ -221,9 +224,9 @@ while y < mapheight:
             princess = Town_Zone[curr_coordinate][PRINCESS]
         # Hide the Princess
         elif curr_coordinate == princess_location and princess_in_hiding == False:
+            examination_value = "Before you stands a girl, courageous but fearful."
             princess = True
             princess_in_hiding = True
-            zonetype_value = "Princess"
         else:
             princess = False
 

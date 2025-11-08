@@ -22,6 +22,8 @@ if name == "nt":
 else:
 	clear_command = "clear";
 
+
+
 # Define Player Class with attributes
 class player:
 	def __init__(self):
@@ -47,6 +49,7 @@ UP = "North";
 DOWN = "South";
 LEFT = "West";
 RIGHT = "East";
+PRINCESS = False;
 
 ### Supporting Functions  ###
 def printbychar(statement,ms=10):
@@ -143,7 +146,7 @@ def player_move(myAction):
 			destination = zonemap[myPlayer.location][RIGHT];
 		case _:
 			printbychar ("Invalid Direction");
-			prompt();
+			return;
 		
 	match destination:
 		case "":
@@ -170,7 +173,10 @@ def movement_handler(destination):
 	print_location();
 
 def player_examine(action):
-	printbychar(zonemap[myPlayer.location][EXAMINATION]);
+	if (zonemap[myPlayer.location][PRINCESS]):
+		printbychar("You Found the Princess but before she will come with you, you need to share a secret.");
+	else:
+		printbychar(zonemap[myPlayer.location][EXAMINATION]);
 
 ###  Game Functionality   ####
 def start_game():
@@ -192,6 +198,7 @@ def setup_game():
 	### Introdution  ###
 	printbychar("\nWelcome " + myPlayer.name + ".");
 	printbychar("\nLet the Game Begin...");
+	printbychar("\nThe princess's coordinates are " + grid.princess_location);
 	main_game_loop();
 
 title_screen();
