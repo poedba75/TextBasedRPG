@@ -10,6 +10,8 @@ import grid;
 
 # Define Local variables.
 zonemap = grid.zonemap;
+kings_code = grid.kings_code;
+
 found_princess = False;
 
 # Python Test RPG
@@ -21,8 +23,6 @@ if name == "nt":
 	clear_command = "cls";
 else:
 	clear_command = "clear";
-
-
 
 # Define Player Class with attributes
 class player:
@@ -174,9 +174,23 @@ def movement_handler(destination):
 
 def player_examine(action):
 	if (zonemap[myPlayer.location][PRINCESS]):
-		printbychar("You Found the Princess but before she will come with you, you need to share a secret.");
+		find_princess();
 	else:
 		printbychar(zonemap[myPlayer.location][EXAMINATION]);
+
+def find_princess():
+	printbychar("\nYou Found the Princess but before she will come with you, you need to share a secret.");
+	printbychar("\nWhat secret to you have to share with the Princess?");
+	secret = input("> ");
+
+	if (secret == kings_code):
+		printbychar("\nYou have presented the King's code. I shall follow you back to my father.");
+		found_princess = True;
+		prompt();
+	else:
+		printbychar("\nYou have presented a false code.");
+		printbychar("\nThe princess smashes a vile on the ground and then disappears.");
+		prompt();
 
 ###  Game Functionality   ####
 def start_game():
