@@ -15,7 +15,7 @@ inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 
 # Define variables & Set Initial Values
 if (inmapwidth == 0):
-    mapwidth = 40;              # Number of Columns on Map
+    mapwidth = 35;              # Number of Columns on Map
 
 if (inmapheight == 0):
     mapheight = 15;             # Number of Rows on Map
