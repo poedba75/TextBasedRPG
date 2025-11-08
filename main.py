@@ -31,64 +31,19 @@ else:
 # Define Player Class with attributes
 class player:
 	def __init__(self):
-		self.name = input("Enter your name: ");
-		self.occupation = input("Enter your occupation: ");
+		self.name = "";
+		self.occupation = "";
 		self.hp = 0;
 		self.mp = 0;
 		self.strength = 0;
 		self.location = "0,0"; #Home Location
 		self.gameover = False;
 
-#does special things depending on what you do
-match self.occupation:
-	case "knight":
-		self.hp = 100;
-		self.mp = 50;
-		self.strength = 100;
-	case "mage":
-		self.hp = 75;
-		self.mp = 100;
-		self.strength = 75;
-	case "thief":
-		self.hp = 60;
-		self.mp = 75;
-		self.strength = 60;		
-	case "cleric":
-		self.hp = 80;
-		self.mp = 80;
-		self.strength = 80;
-	case "archer":
-		self.hp = 90;
-		self.mp = 60;
-		self.strength = 85;
-	case "bard":
-		self.hp = 70;
-		self.mp = 70;
-		self.strength = 70;
-	case "Barrel Worker":
-		self.hp = 200;
-		self.mp = 20;
-		self.strength = 500;
-		print("As a Barrel Worker, you have exceptional durability but limited magical ability.");
-	case "Dragon Tamer":
-		self.hp = 150;
-		self.mp = 100;
-		self.strength = 100;
-	case "Alchemist":
-		self.hp = 80;
-		self.mp = 120;
-		self.strength = 70;
-	case "":
-		print("No occupation selected. Defaulting to Adventurer.");
-		self.hp = 85;
-		self.mp = 85;
-		self.strength = 85;	
-
 # Initialize myPlayer
 myPlayer = player();
 
 # Define Local Dictionaries
-valid_start_commands = ["play","help","quit","print map"];
+valid_start_commands = ["play","help","quit"];
 
 ###  Game Interactivity   ####
 ZONENAME = "ZoneName";
@@ -109,23 +64,22 @@ def printbychar(statement,ms=10):
 
 # Define Title Screen Selections
 def title_screen_selections():
-    printbychar("What would you like to do?");
-    option = input("> ");
-    
-    while option.lower() not in valid_start_commands:
-        printbychar("Please enter a valid command.");
-        option = input("> ");
+	printbychar("What would you like to do?"+ myPlayer.name);
+	option = input("> ");
 
-    if (option.lower() == "play"):
-        start_game();
-    elif (option.lower() == "help"):
-        help_menu();
-        title_screen_selections()
-    elif (option.lower() == "print map"):
-        printbychar("You can only print the map once you have started the game.\n");
-        title_screen_selections();
-    elif (option.lower() == "quit"):
-        sys.exit();
+	while option.lower() not in valid_start_commands:
+		printbychar("Please enter a valid command."+ myPlayer.name);
+		option = input("> ");
+
+	if (option.lower() == "play"):
+		start_game();
+	elif (option.lower() == "help"):
+		help_menu();
+		title_screen_selections();
+	elif (option.lower() == "quit"):
+		game_exit();
+	else:
+		title_screen_selections();
 
 def title_screen():
     system(clear_command);
@@ -164,13 +118,13 @@ def verify_action(action):
 	return new_action;
 
 def prompt():
-	printbychar("\nWhat would you like to do?");
+	printbychar("\nWhat would you like to do " + myPlayer.name + "?" );
 	action = input("\n" + myPlayer.location + "> ");
 	verified_action = verify_action(action);
 
 	match verified_action.lower():
 		case "quit":
-			sys.exit();
+			game_exit();
 		case "help":
 			help_menu();
 		case "move"|"go"|"travel"|"walk":
@@ -179,6 +133,13 @@ def prompt():
 			player_examine(verified_action.lower());
 		case "print map"|"show map":
 			grid.printmap(myPlayer.location);
+
+def game_exit():
+	confirm_quit = input("Are you sure you want to quit? (y/n)");
+	if confirm_quit.lower() == "y":
+		sys.exit();
+	else:
+		title_screen();
 
 def player_move(myAction):
 	printbychar("\nWhere would you like to move to?");
@@ -233,13 +194,64 @@ def main_game_loop():
 		prompt();
 		# here handle if puzzles are solved
 
+def player_setup():
+	### Name Collection  ###
+	printbychar("Hello, what is your name?\n");
+	myPlayer.name = input("> ");
+
+	printbychar("What is your occupation " + myPlayer.name + "?\n");
+	myPlayer.occupation = input("> ");
+
+	#does special things depending on what you do
+	match myPlayer.occupation.lower():
+		case "knight":
+			myPlayer.hp = 100;
+			myPlayer.mp = 50;
+			myPlayer.strength = 100;
+		case "mage":
+			myPlayer.hp = 75;
+			myPlayer.mp = 100;
+			myPlayer.strength = 75;
+		case "thief":
+			myPlayer.hp = 60;
+			myPlayer.mp = 75;
+			myPlayer.strength = 60;		
+		case "cleric":
+			myPlayer.hp = 80;
+			myPlayer.mp = 80;
+			myPlayer.strength = 80;
+		case "archer":
+			myPlayer.hp = 90;
+			myPlayer.mp = 60;
+			myPlayer.strength = 85;
+		case "bard":
+			myPlayer.hp = 70;
+			myPlayer.mp = 70;
+			myPlayer.strength = 70;
+		case "Barrel Worker":
+			myPlayer.hp = 200;
+			myPlayer.mp = 20;
+			myPlayer.strength = 500;
+			print("As a Barrel Worker, you have exceptional durability but limited magical ability.");
+		case "Dragon Tamer":
+			myPlayer.hp = 150;
+			myPlayer.mp = 100;
+			myPlayer.strength = 100;
+		case "Alchemist":
+			myPlayer.hp = 80;
+			myPlayer.mp = 120;
+			myPlayer.strength = 70;
+		case "":
+			print("\nNo occupation selected. Defaulting to Adventurer.");
+			myPlayer.hp = 85;
+			myPlayer.mp = 85;
+			myPlayer.strength = 85;	
+
 def setup_game():
 	# Clear the screen.
 	system(clear_command);
 
-	### Name Collection  ###
-	printbychar("Hello, what is your name?\n");
-	myPlayer.name = input("> ");
+	player_setup();
 
 	### Introdution  ###
 	printbychar("\nWelcome " + myPlayer.name + ".");
