@@ -10,6 +10,8 @@ import grid;
 
 # Define Local variables.
 zonemap = grid.zonemap;
+kings_code = grid.kings_code;
+
 found_princess = False;
 
 # Python Test RPG
@@ -47,6 +49,7 @@ UP = "North";
 DOWN = "South";
 LEFT = "West";
 RIGHT = "East";
+PRINCESS = False;
 
 ### Supporting Functions  ###
 def printbychar(statement,ms=10):
@@ -143,7 +146,7 @@ def player_move(myAction):
 			destination = zonemap[myPlayer.location][RIGHT];
 		case _:
 			printbychar ("Invalid Direction");
-			prompt();
+			return;
 		
 	match destination:
 		case "":
@@ -170,7 +173,24 @@ def movement_handler(destination):
 	print_location();
 
 def player_examine(action):
-	printbychar(zonemap[myPlayer.location][EXAMINATION]);
+	if (zonemap[myPlayer.location][PRINCESS]):
+		find_princess();
+	else:
+		printbychar(zonemap[myPlayer.location][EXAMINATION]);
+
+def find_princess():
+	printbychar("\nYou Found the Princess but before she will come with you, you need to share a secret.");
+	printbychar("\nWhat secret to you have to share with the Princess?");
+	secret = input("> ");
+
+	if (secret == kings_code):
+		printbychar("\nYou have presented the King's code. I shall follow you back to my father.");
+		found_princess = True;
+		prompt();
+	else:
+		printbychar("\nYou have presented a false code.");
+		printbychar("\nThe princess smashes a vile on the ground and then disappears.");
+		prompt();
 
 ###  Game Functionality   ####
 def start_game():
@@ -192,6 +212,7 @@ def setup_game():
 	### Introdution  ###
 	printbychar("\nWelcome " + myPlayer.name + ".");
 	printbychar("\nLet the Game Begin...");
+	printbychar("\nThe princess's coordinates are " + grid.princess_location);
 	main_game_loop();
 
 title_screen();
