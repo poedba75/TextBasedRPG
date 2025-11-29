@@ -1,6 +1,7 @@
 # Import Supporting Modules
 import random;
-import codes;
+import king;
+import princess;
 
 # Import Specific Modules from Libraries
 from time import sleep;
@@ -8,7 +9,7 @@ from time import sleep;
 # If you want to prompt the user for the map size...
 inmapwidth = 0;
 inmapheight = 0;
-'''
+''' # Prompt to choose Map Size.
 inmapwidth = int(input('What is the requested map width? (1-35)\n> '))
 inmapheight = int(input('What is the requested map height? (1-26)\n> '))
 '''
@@ -26,8 +27,8 @@ x = 0                           # Current Horizontal Coordinate
 y = 0                           # Current Vertical Coordinate
 random_princess_x = 0                                                               # Initial Princess x coordinate
 random_princess_y = 0                                                               # Initial Princess y coordinate
-princess_location = str(random_princess_x) + "," + str(random_princess_y)           # Princess Location in x, y format
-kings_code = codes.kings_code;
+princess_location = str(random_princess_x) + "," + str(random_princess_y)           # Set Initial Princess Location (0,0)
+kings_code = king.kings_code;
 
 # Define Constants and Set Values
 ZONENAME = "ZoneName"
@@ -102,9 +103,7 @@ Town_Zone.update({
 
 # Move Princess outside of town.
 while princess_location in Town_Zone:
-    random_princess_y = random.randint(1,mapheight-1)                           # Choose random y coordinate
-    random_princess_x = random.randint(1,mapwidth-1)                            # Choose randle x coordinate
-    princess_location = str(random_princess_x) + "," + str(random_princess_y)   # Update Princess Location in x, y format
+    princess_location = princess.set_princess_location(mapwidth,mapheight);
 
 # Initialize the ZoneMap Dictionary
 zonemap = {}
