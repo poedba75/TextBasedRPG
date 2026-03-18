@@ -20,13 +20,16 @@ if (inmapwidth == 0):
 if (inmapheight == 0):
     mapheight = 30;             # Number of Rows on Map
 
+
+princess_location = "2,2";      # Initial Princess Location
 princess_in_hiding = False;     # Set initial boolean for Princess
+
 map_area = mapwidth * mapheight # Calculate Total Area of Map
 x = 0                           # Current Horizontal Coordinate
 y = 0                           # Current Vertical Coordinate
 random_princess_x = 0                                                               # Initial Princess x coordinate
 random_princess_y = 0                                                               # Initial Princess y coordinate
-princess_location = str(random_princess_x) + "," + str(random_princess_y)           # Princess Location in x, y format
+
 kings_code = codes.kings_code;
 
 # Define Constants and Set Values
@@ -100,17 +103,8 @@ Town_Zone.update({
     }
 })
 
-# Move Princess outside of town.
-while princess_location in Town_Zone:
-    random_princess_y = random.randint(1,mapheight-1)                           # Choose random y coordinate
-    random_princess_x = random.randint(1,mapwidth-1)                            # Choose randle x coordinate
-    princess_location = str(random_princess_x) + "," + str(random_princess_y)   # Update Princess Location in x, y format
-
-#Debug Only
-princess_location = "2,2";
-
 # Initialize the ZoneMap Dictionary
-zonemap = {}
+zonemap = {};
 
 # Generate Zone Map (pseudo randomly) 
 # Repeat for Each Row of the map
@@ -251,6 +245,17 @@ while y < mapheight:
     # Update the y coordinate to the next row and reset x to the first column
     y += 1
     x = 0
+
+def move_princess():
+    princess_location = "0,0";  # Princess Location in x, y format
+    
+    # Move Princess outside of town.
+    while princess_location in Town_Zone:
+        random_princess_y = random.randint(1,mapheight-1);                           # Choose random y coordinate
+        random_princess_x = random.randint(1,mapwidth-1);                            # Choose randle x coordinate
+        princess_location = str(random_princess_x) + "," + str(random_princess_y);   # Update Princess Location in x, y format
+
+
 
 def printmap (curr_location):
     y = 0
