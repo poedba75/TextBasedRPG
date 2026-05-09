@@ -31,6 +31,8 @@ class player:
 		self.occupation = "";
 		self.hp = 0;
 		self.mp = 0;
+		self.attack = 5;
+		self.defend = 4;
 		self.location = "0,0"; #Home Location
 		self.gameover = False;
 
